@@ -1,0 +1,38 @@
+.console {
+  position: relative;
+  background-color: black;
+  background-image: radial-gradient(
+    rgba(0, 150, 0, 0.75), black 120%
+  );
+  height: 100vh;
+  color: white;
+  text-shadow: 0 0 5px #C8C8C8;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.3rem;
+}
+
+.console::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    0deg,
+    #00000027,
+    #00000027 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+}
+
+::selection {
+  background: #0080FF;
+  text-shadow: none;
+}
+
+.console > pre {
+  margin: 0;
+}
