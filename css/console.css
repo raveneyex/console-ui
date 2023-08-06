@@ -7,8 +7,7 @@
   height: 100vh;
   color: white;
   text-shadow: 0 0 5px #C8C8C8;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 1.3rem;
+
 }
 
 .console::after {
@@ -31,8 +30,4 @@
 ::selection {
   background: #0080FF;
   text-shadow: none;
-}
-
-.console > pre {
-  margin: 0;
 }

@@ -1,9 +1,16 @@
 @import "console.css";
+@import "text-typing.css";
 
 *, html {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body {
+  padding: 12px;
+  font-size: 0.8rem;
+  font-family: 'Press Start 2P', monospace;
 }
 
 
