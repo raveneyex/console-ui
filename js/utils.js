@@ -31,7 +31,7 @@ export function initRecurringInput(target, onKeyPress) {
 
   const keyPressFn = async (event) => {
     if (event.key === 'Enter') {
-      const value = input.innerText.trim();
+      const value = "> " + input.innerText.trim();
       const line = getNewLine(value, ['user-text']);
       
       input.removeEventListener("keyup", keyPressFn);

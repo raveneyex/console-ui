@@ -40,3 +40,5 @@ Note: I don't suffer from american brain-rot so all date formats are DD/MM/YYYY.
 * Created a new document where I'm defining the styles needed to display work experience.
 * Thinking about adding some lint and code-format rules, but I have avoided npm so far. Let's see if I can keep resisting.
   - Also considering adding a bundler, to concatenate all my CSS and JS files. Perhaps even migrating all the CSS to SASS? We'll see.
+* Moved the animation function to return a promise instead of using a callback - feels cleaner that way.
+* Adding some more styles to give the console better visual indications of the different types of text.
