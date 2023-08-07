@@ -1,0 +1,19 @@
+.user-input {
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+  min-width: fit-content;
+  min-height: 15px;
+  line-height: 15px;
+}
+
+.user-input:focus, .user-input:focus-visible {
+  box-shadow: none;
+  border: none;
+  text-decoration: none;
+  outline: 0px solid transparent;
+}
+
+.user-input::before {
+  display: inline-block;
+}

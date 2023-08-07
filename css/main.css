@@ -1,5 +1,7 @@
 @import "console.css";
 @import "text-typing.css";
+@import "utils.css";
+@import "user-input.css";
 
 *, html {
   box-sizing: border-box;

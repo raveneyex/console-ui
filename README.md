@@ -3,7 +3,7 @@
 An HTML-first UI portfolio.
 My goal with this file would be to document the evolution of the project: from just a bunch of static files in plain HTML/CSS/JS to wherever fate and needs take me.
 
-## Log
+## Step by Step
 
 Note: I don't suffer from american brain-rot so all date formats are DD/MM/YYYY. Deal with it.
 
@@ -53,7 +53,7 @@ Then some HTML links to download a better font and use our CSS files:
 </head>
 ```
 
-In `css/main.css` imports to other stylesheets and some reset rules:
+In `css/main.css` I'll add some imports to other stylesheets and some reset rules:
 
 ```
 @import "console.css";
@@ -63,10 +63,17 @@ In `css/main.css` imports to other stylesheets and some reset rules:
   margin: 0;
   padding: 0;
 }
+
+body {
+  padding: 12px;
+  font-size: 0.8rem;
+  font-family: 'Press Start 2P', monospace;
+}
 ```
 
 And now the actual console styles in `css/console.css`.
-A radial gradient will give us the greenish-black that characterizes the old console look. The font will be white for good contrast plus a font-shadow to give it that blurred feel; we will make the console style occupy 100% of the viewport height and we will use the font-family downloaded in the HTML.
+
+A radial gradient give us the greenish-black that characterizes the old console look. The font will be white for good contrast plus a font-shadow to give it a blurred feel; the console-styled element will occupy 100% of the viewport height and use the font-family downloaded in the HTML.
 
 ```
 .console {
@@ -78,8 +85,6 @@ A radial gradient will give us the greenish-black that characterizes the old con
   height: 100vh;
   color: white;
   text-shadow: 0 0 5px #C8C8C8;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 1.3rem;
 }
 ```
 
@@ -123,7 +128,8 @@ And back in the HTML file add the class `console` to the `<body>` of the documen
 
 And we now have an old school console UI.
 
-Now let's create a CSS animation that emulates text-typing.
+Now CSS animations that emulate text-typing.
+
 In a new file `css/text-typing.css` we're going to define two keyframe animations: one for the text appearing one key at a time, and another for the cursor blink.
 
 For the cursor blink we're going to leverage the `border-right` CSS property and do an infinite loop where we alternate the color between white and transparent.
@@ -146,7 +152,7 @@ And for the text-typing effect we will simply mess with the width of the element
 
 ```
 
-Now a style that actually loops the animations and takes care of things (such as preventing the element from stretching to full-width)
+Now a style rule that actually loops the animations and takes care of things (such as preventing the element from stretching to full-width)
 
 ```
 .text-typing {
@@ -159,9 +165,10 @@ Now a style that actually loops the animations and takes care of things (such as
 }
 ```
 
-With these classes in place we can now update `css/main.css` to import the `text-typing.css` file and then use the classes in the HTML. However, we would need to alter our markup to fully leverage the animations:
+Then update `css/main.css` to import `text-typing.css` and have the new classes available to use.
 
-The main change is that we'll no longer use `<pre>` and `<output>`. Instead, all the text will go inside the `<body class="console">`, each line in a `<div>`; and those lines requiring the animation would need to use the class "text-typing".
+Now to alter the markup to use the new css classes:
+Out with `<pre>` and `<output>`; all the text will go inside the `<body class="console">` with each line in a `<div>`; and those lines requiring the animation would use the class "text-typing".
 
 ```
 ...
@@ -175,5 +182,14 @@ The main change is that we'll no longer use `<pre>` and `<output>`. Instead, all
 </body>
 ...
 ```
+
+And we're golden. Or not:
+
+All lines are being rendered at the same time and that's not how old-school consoles work!
+In old-school console programs each line is printed one at a time. So something that acts as a controller for the whole page is needed.
+
+That means it's JavaScript time.
+
+First the app entry point: `js/main.js`. It will be loaded in `index.html` using a `<script>` tag with the `defer` attribute to ensure it is executed only after the document has loaded.
 
 
