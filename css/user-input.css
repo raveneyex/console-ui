@@ -16,4 +16,6 @@
 
 .user-input::before {
   display: inline-block;
+  content: "> ";
+  margin-right: 5px;
 }

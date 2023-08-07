@@ -67,7 +67,6 @@ export function recurringInput(target) {
   const input = getInput();
   const keyPressFn = (event) => {
     if (event.key === 'Enter') {
-      debugger;
       const text = getNewLine(input.innerText.trim());
       input.remove();
       target.appendChild(text);
@@ -75,7 +74,7 @@ export function recurringInput(target) {
     }
   }
 
-  input.addEventListener("keypress", keyPressFn);
+  input.addEventListener("keyup", keyPressFn);
 
   target.appendChild(input);
   input.focus();
@@ -87,7 +86,7 @@ export function getInput() {
   input.role = "textbox";
   input.contentEditable = true;
   input.classList.add("user-input", 'cursor-blink');
-  input.innerText = "";
+  input.innerHTML = "";
   // input.autofocus = true;
 
   // const div = document.createElement('div');
