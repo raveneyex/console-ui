@@ -9,8 +9,11 @@ import { animateText } from "./animation.js";
   };
 
   setTimeout(() => {
-    // container.innerHTML = '';
-    animateText('../data/intro.txt', container, animationCompleteFn);
-  }, 5000)
+    const child = container.querySelector('.console-info');
+    container.removeChild(child);
+
+    animateText('../data/intro.txt', container, ['text-typing', 'console-info'])
+      .then(animationCompleteFn);
+  }, 1500)
   
 })()

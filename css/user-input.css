@@ -2,6 +2,8 @@
   background-color: transparent;
   box-shadow: none;
   border: none;
+  /* display: inline-block;
+  margin-top: 25px; */
   min-width: fit-content;
   min-height: 15px;
   line-height: 15px;

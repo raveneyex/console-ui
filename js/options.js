@@ -19,11 +19,5 @@ function printHelp() {
 
 async function printStudies() {
   const container = document.getElementById('container');
-  const promise = new Promise(async (resolve, _) => {
-    animateText('../data/education.txt', container, () => {
-      resolve();
-    })
-  });
-
-  return promise;
+  return animateText('../data/education.txt', container, ['console-output']);
 }

@@ -14,7 +14,7 @@ export function getNewLine(line, classes) {
   
   newLine.appendChild(textNode);
   if (classes) {
-    newLine.classList.add(classes);
+    newLine.classList.add(...classes);
   }
   
   return newLine;
