@@ -1,4 +1,5 @@
 import { data, initAnimation, recurringInput } from "./utils.js";
+import { handleInput } from "./options.js";
 
 (function() {
   console.log("Loaded");
@@ -6,7 +7,7 @@ import { data, initAnimation, recurringInput } from "./utils.js";
   const container = document.getElementById('container');
   
   const animationCompleteFn = () => {
-    recurringInput(container);
+    recurringInput(container, handleInput);
   };
 
   initAnimation(data, container, animationCompleteFn.bind(this));

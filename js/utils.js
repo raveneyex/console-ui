@@ -8,7 +8,6 @@ export function getCurrentDate() {
   return formattedDate;
 }
 
-const currentDate = getCurrentDate();
 export const data = [
   'Starting ChaosOS...',
   '\n',
@@ -20,31 +19,31 @@ export const data = [
   'ChaosOS version 1.0.0.',
   'Copyright 2023 @RavenEyex.',
   '\n',
-  `Current date is ${currentDate}.`,
+  `Current date is ${getCurrentDate()}.`,
   'Console-UI Porfolio loaded.',
   '\n',
   'Type help to get a list of available commands.'
 ];
 
-export function getNewLine(line, useEffect) {
+export function getNewLine(line, classes) {
   const newLine = document.createElement('div');
   const textNode = document.createTextNode(line);
   
   newLine.appendChild(textNode);
-  if (useEffect) {
-    newLine.classList.add('text-typing');
+  if (classes) {
+    newLine.classList.add(classes);
   }
   
   return newLine;
 }
 
 function printText(text, target, index, callback) {
-  console.log("Text:", text.length);
+  // console.log("Text:", text.length);
   const _index = index || 0;
-  console.log("Index:", _index);
+  // console.log("Index:", _index);
   const line = text[_index];
-  console.log("Line:", line);
-  const newLine = getNewLine(line, true);
+  // console.log("Line:", line);
+  const newLine = getNewLine(line, ['text-typing']);
   
   target.appendChild(newLine)
 
@@ -63,36 +62,32 @@ export function initAnimation(text, target, callback) {
   printText(text, target, 0, callback);
 }
 
-export function recurringInput(target) {
+export function getInput() {
+  const template = document.getElementById("user-input-tpl");
+  const input = template.content.firstElementChild.cloneNode(true);
+  return input;
+}
+
+export function recurringInput(target, callback) {
   const input = getInput();
+  target.appendChild(input);
   const keyPressFn = (event) => {
     if (event.key === 'Enter') {
-      const text = getNewLine(input.innerText.trim());
+      const value = input.innerText.trim();
+      const text = getNewLine(value, ['user-text']);
       input.remove();
       target.appendChild(text);
-      recurringInput(target);
+      if (callback && typeof callback === 'function') {
+        callback(value);
+      }
+      recurringInput(target, callback);
     }
   }
 
-  input.addEventListener("keyup", keyPressFn);
-
-  target.appendChild(input);
+  input.addEventListener("keyup", keyPressFn)
   input.focus();
 }
 
-export function getInput() {
-  const input = document.createElement("span");
-  input.id = "user-input";
-  input.role = "textbox";
-  input.contentEditable = true;
-  input.classList.add("user-input", 'cursor-blink');
-  input.innerHTML = "";
-  // input.autofocus = true;
 
-  // const div = document.createElement('div');
-  // div.appendChild(input);
-
-  return input;
-}
 
 

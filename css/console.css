@@ -38,3 +38,8 @@
   background: #0080FF;
   text-shadow: none;
 }
+
+.console > .user-text {
+  color: gray;
+  text-shadow: none;
+}
