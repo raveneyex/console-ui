@@ -1,14 +1,12 @@
-import { data, initAnimation, recurringInput } from "./utils.js";
+import { initRecurringInput } from "./utils.js";
 import { handleInput } from "./options.js";
+import { animateText } from "./animation.js";
 
-(function() {
-  console.log("Loaded");
-
+(async function() {
   const container = document.getElementById('container');
-  
   const animationCompleteFn = () => {
-    recurringInput(container, handleInput);
+    initRecurringInput(container, handleInput);
   };
 
-  initAnimation(data, container, animationCompleteFn.bind(this));
+  animateText('../data/intro.txt', container, animationCompleteFn);
 })()

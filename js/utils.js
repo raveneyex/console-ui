@@ -8,23 +8,6 @@ export function getCurrentDate() {
   return formattedDate;
 }
 
-export const data = [
-  'Starting ChaosOS...',
-  '\n',
-  '\n',
-  '\n',
-  'Welcome to Chaos OS.',
-  '\n',
-  '\n',
-  'ChaosOS version 1.0.0.',
-  'Copyright 2023 @RavenEyex.',
-  '\n',
-  `Current date is ${getCurrentDate()}.`,
-  'Console-UI Porfolio loaded.',
-  '\n',
-  'Type help to get a list of available commands.'
-];
-
 export function getNewLine(line, classes) {
   const newLine = document.createElement('div');
   const textNode = document.createTextNode(line);
@@ -37,52 +20,37 @@ export function getNewLine(line, classes) {
   return newLine;
 }
 
-function printText(text, target, index, callback) {
-  // console.log("Text:", text.length);
-  const _index = index || 0;
-  // console.log("Index:", _index);
-  const line = text[_index];
-  // console.log("Line:", line);
-  const newLine = getNewLine(line, ['text-typing']);
-  
-  target.appendChild(newLine)
-
-  setTimeout(() => {
-    if (index + 1 < text.length) {
-      printText(text, target, index+1, callback);
-    } else {
-      if (callback && typeof callback === 'function') {
-        callback();
-      }
-    }
-  }, 1000);
-}
-
-export function initAnimation(text, target, callback) {
-  printText(text, target, 0, callback);
-}
-
 export function getInput() {
   const template = document.getElementById("user-input-tpl");
   const input = template.content.firstElementChild.cloneNode(true);
   return input;
 }
 
-export function recurringInput(target, callback) {
+export function initRecurringInput(target, callback) {
   const input = getInput();
-  target.appendChild(input);
-  const keyPressFn = (event) => {
+
+  const keyPressFn = async (event) => {
     if (event.key === 'Enter') {
       const value = input.innerText.trim();
       const text = getNewLine(value, ['user-text']);
+      
+      input.removeEventListener("keyup", keyPressFn);
       input.remove();
+      
       target.appendChild(text);
       if (callback && typeof callback === 'function') {
-        callback(value);
+        callback(value).then((resp) => {
+          console.log("Resp:", resp)
+          initRecurringInput(target, callback);
+        });
+        
+      } else {
+        initRecurringInput(target, callback);
       }
-      recurringInput(target, callback);
     }
   }
+
+  target.appendChild(input);
 
   input.addEventListener("keyup", keyPressFn)
   input.focus();
