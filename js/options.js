@@ -15,7 +15,7 @@ export function handleInput(value) {
 
 function printHelp() {
   console.log("Currently WIP");
-}
+}  
 
 async function printStudies() {
   const container = document.getElementById('container');

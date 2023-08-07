@@ -1,195 +1,42 @@
 # Console UI
 
 An HTML-first UI portfolio.
-My goal with this file would be to document the evolution of the project: from just a bunch of static files in plain HTML/CSS/JS to wherever fate and needs take me.
+My goal with this file would be to document the evolution of the project: from just a bunch of static files in plain HTML/CSS/JS to wherever fate and needs take me. 
+I am intentionally starting with "just the basics" and seeing how long can I resist adding bundlers, libraries, etc.
 
-## Step by Step
+## Log
 
 Note: I don't suffer from american brain-rot so all date formats are DD/MM/YYYY. Deal with it.
 
 ### 06/08/2023
 
-Started by creating a root folder for the project which I very uncreatively dubbed `console-ui`; and then added folders for the HTML, CSS, and JS:
-
-```
-> mkdir console-ui
-> mkdir console-ui/html
-> mkdir console-ui/css
-> mkdir console-ui/js
-```
-
-For the initial code in `index.html` a basic HTML snippet + a few lines copied from wherever, wrapped in `<pre><output>` tags to keep the text's format.
-
-```
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Console UI</title>
-  </head>
-  <body>
-    <pre>
-      <output>
-        ❯ git init .
-        hint: Using 'master' as the name for the initial branch.
-      </output>
-    </pre>
-  </body>
-</html>
-```
-
-Then some HTML links to download a better font and use our CSS files:
-
-```
-<head>
-  ...
-  <!-- Google Font -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-  <!-- Local CSS file -->
-  <link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-```
-
-In `css/main.css` I'll add some imports to other stylesheets and some reset rules:
-
-```
-@import "console.css";
-
-*, html {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  padding: 12px;
-  font-size: 0.8rem;
-  font-family: 'Press Start 2P', monospace;
-}
-```
-
-And now the actual console styles in `css/console.css`.
-
-A radial gradient give us the greenish-black that characterizes the old console look. The font will be white for good contrast plus a font-shadow to give it a blurred feel; the console-styled element will occupy 100% of the viewport height and use the font-family downloaded in the HTML.
-
-```
-.console {
-  position: relative;
-  background-color: black;
-  background-image: radial-gradient(
-    rgba(0, 150, 0, 0.75), black 120%
-  );
-  height: 100vh;
-  color: white;
-  text-shadow: 0 0 5px #C8C8C8;
-}
-```
-
-Old consoles had overlaying lines on top of whatever was displayed, so we will use the `::after` selector to add an absolutely-positioned linear-gradient to create the overlaying lines effect; it will occupy the full width and height of the viewport. The `pointer-events: none;` rule will ensure that the lines don't block the selection of the text beneath them.
-
-```
-.console::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: repeating-linear-gradient(
-    0deg,
-    #00000027,
-    #00000027 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  pointer-events: none;
-}
-```
-
-Finally some style for the look-and-feel of the text selection:
-
-```
-::selection {
-  background: #0080FF;
-  text-shadow: none;
-}
-```
-
-And back in the HTML file add the class `console` to the `<body>` of the document:
-
-```
-...
-<body class="console">
-...
-```
-
-And we now have an old school console UI.
-
-Now CSS animations that emulate text-typing.
-
-In a new file `css/text-typing.css` we're going to define two keyframe animations: one for the text appearing one key at a time, and another for the cursor blink.
-
-For the cursor blink we're going to leverage the `border-right` CSS property and do an infinite loop where we alternate the color between white and transparent.
-And for the text-typing effect we will simply mess with the width of the element, expanding it slowly so that the text reveals itself little by little.
-
-```
-@keyframes blink {
-  0%,100% {
-    border-right:2px solid transparent;
-  }
-  50% {
-    border-right:2px solid white;
-  }
-}
-
-@keyframes typing {
-  0% { width:0% }
-  100% { width:100% }
-}
-
-```
-
-Now a style rule that actually loops the animations and takes care of things (such as preventing the element from stretching to full-width)
-
-```
-.text-typing {
-  max-width: fit-content;
-  margin: 0px;
-  white-space: nowrap;
-  overflow: hidden;
-  animation: typing 4s steps(22, end) forwards,
-             blink 1s infinite;
-}
-```
-
-Then update `css/main.css` to import `text-typing.css` and have the new classes available to use.
-
-Now to alter the markup to use the new css classes:
-Out with `<pre>` and `<output>`; all the text will go inside the `<body class="console">` with each line in a `<div>`; and those lines requiring the animation would use the class "text-typing".
-
-```
-...
-<body class="console">
-  <div class="text-typing">
-    > git init .
-  </div>
-  <div class="text-typing">
-    hint: Using 'master' as the name for the initial branch.
-  </div>
-</body>
-...
-```
-
-And we're golden. Or not:
-
-All lines are being rendered at the same time and that's not how old-school consoles work!
-In old-school console programs each line is printed one at a time. So something that acts as a controller for the whole page is needed.
-
-That means it's JavaScript time.
-
-First the app entry point: `js/main.js`. It will be loaded in `index.html` using a `<script>` tag with the `defer` attribute to ensure it is executed only after the document has loaded.
+* Created style using `radial-gradient` for the old-school background.
+* Overlaying lines done using `repeating-linear-gradient`, and fixed position stretching to the four sides ensures overlay covers all page, even with scroll.
+* `text-typing` animation is done be messing with the width of the container.
+* the cursor blink was achieved be alternating the right-border between white and transparent
+* Rendering one line at a time with pure CSS proved trickier and the 'solution' doesn't really satisfies me:
+  - it involves carefully setting the `animation-delay` of the n+1 animation to the total sum of the duration of all the previous animations.
+  - doable, but it felt cheap.
+  - decided to bring in the JS cannons instead.
+* Created a `animateText` function that receives 3 parameters:
+  - `textPath`: path to a txt file with the text to animate.
+  - `target`: an HTMLElement where the text will be rendered.
+  - `onComplete`: a callback to execute once the animation has completed (I'm hesitant about this pattern and I'm considering changing the function to a promise that resolves once it finishes — I'll think about it.)
+* The internals of `animateText` are admitedly over-engineered but I like what I did cuz not every day I get to play with generator functions:
+  - I use `textPath` to fetch the text file and break it into lines.
+  - I then create a generator function that will yield a promise for each line of text. 
+  - All promises take a `delay` time to resolve — this is what ensures that each line has time to render and animate before the next line is added.
+  - When each line resolves it is added as a child to `target`, using the `text-typing` class.
+  - Once the generator is done yielding `onComplete` is called.
+* For the user input I had to use hack because `textarea`s and `input`s do not resize with the content, which is exactly what I needed to get that console input feeling. So I used a `<span contenteditable>` and threw some styles in there to style it as needed.
+* Added an event listener to handle the text when the user hits enter:
+  - Whatever text was in the "input" is trimmed and added to the document as a new line in the console — though using a different font color to denote that it is text supplied by the user.
+  - Input is deleted from the view
+  - The user input command is processed - if it produces output, the input should not be rendered until all the output is rendered and animated.
 
 
+### 07/08/2023
+
+* Created a new document where I'm defining the styles needed to display work experience.
+* Thinking about adding some lint and code-format rules, but I have avoided npm so far. Let's see if I can keep resisting.
+  - Also considering adding a bundler, to concatenate all my CSS and JS files. Perhaps even migrating all the CSS to SASS? We'll see.

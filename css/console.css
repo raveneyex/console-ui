@@ -1,4 +1,5 @@
 .console {
+  padding: 12px;
   position: relative;
   background-color: black;
   background-image: radial-gradient(
@@ -43,3 +44,29 @@
   color: gray;
   text-shadow: none;
 }
+
+.console h1,
+.console h2,
+.console h3 {
+  text-decoration: underline;
+}
+
+.console h1 {
+  font-size: 1.5em;
+}
+
+.console h2 {
+  font-size: 1.2em;
+}
+
+.console h3 {
+  font-size: 1em;
+}
+
+.console .console-info {
+  min-height: fit-content;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 10px;
+}
+

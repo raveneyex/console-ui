@@ -26,33 +26,34 @@ export function getInput() {
   return input;
 }
 
-export function initRecurringInput(target, callback) {
+export function initRecurringInput(target, onKeyPress) {
   const input = getInput();
 
   const keyPressFn = async (event) => {
     if (event.key === 'Enter') {
       const value = input.innerText.trim();
-      const text = getNewLine(value, ['user-text']);
+      const line = getNewLine(value, ['user-text']);
       
       input.removeEventListener("keyup", keyPressFn);
       input.remove();
       
-      target.appendChild(text);
-      if (callback && typeof callback === 'function') {
-        callback(value).then((resp) => {
-          console.log("Resp:", resp)
-          initRecurringInput(target, callback);
+      target.appendChild(line);
+
+      if (onKeyPress && typeof onKeyPress === 'function') {
+        onKeyPress(value).then(() => {
+          setTimeout(() => {
+            initRecurringInput(target, onKeyPress);
+          }, 500)
+          
         });
-        
       } else {
-        initRecurringInput(target, callback);
+        initRecurringInput(target, onKeyPress);
       }
     }
   }
-
+  
+  input.addEventListener("keyup", keyPressFn);
   target.appendChild(input);
-
-  input.addEventListener("keyup", keyPressFn)
   input.focus();
 }
 

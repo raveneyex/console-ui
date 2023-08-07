@@ -8,5 +8,9 @@ import { animateText } from "./animation.js";
     initRecurringInput(container, handleInput);
   };
 
-  animateText('../data/intro.txt', container, animationCompleteFn);
+  setTimeout(() => {
+    // container.innerHTML = '';
+    animateText('../data/intro.txt', container, animationCompleteFn);
+  }, 5000)
+  
 })()

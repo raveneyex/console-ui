@@ -16,13 +16,15 @@
     <script src="js/main.js" type="module" defer></script>
   </head>
 
-  <body class="console" id="container">
-    <div class="text-typing">Starting ChaosOS...</div>
+  <body id="container" class="console">
+    <div class="text-typing console-info">Starting ChaosOS...</div>
+    <div class="text-typing console-info delay-1">&nbsp;</div>
+    <div class="text-typing console-info delay-2"> </div>
+    <div class="text-typing console-info delay-3"> </div>
+    
+    <!-- Templates -->
+    <template id="user-input-tpl">
+      <span id="user-input" role="textbox" class="user-input cursor-blink" contenteditable></span>
+    </template>
   </body>
-  
-  <!-- Templates -->
-  <template id="user-input-tpl">
-    <span id="user-input" role="textbox" class="user-input cursor-blink" contenteditable></span>
-  </template>
-
 </html>
